@@ -25,12 +25,29 @@ export default class AppClass extends Component {
         }
     }
 
+    addTodo = () => {
+      this.setState(prevState => {
+        let todos = prevState.todos;
+        
+        const newTodos = [
+          ...prevState.todos,
+          {
+            id: 4,
+            title: 'This is class based components',
+            isComplete: false,
+          },
+        ];
+        return { todos: newTodos }
+      });
+    };
+    
+
   render() {
     return (
         <div className="todo-app-container">
         <div className="todo-app">
           <h2>Todo App</h2>
-          <form action="#">
+          <form action="#" onSubmit={this.addTodo}>
             <input
               type="text"
               className="todo-input"
@@ -40,7 +57,7 @@ export default class AppClass extends Component {
   
           <ul className="todo-list">
             {this.state.todos.map((todo, index) => (
-              <li className="todo-item-container">
+              <li key={todo.id} className="todo-item-container">
                 <div className="todo-item">
                   <input type="checkbox" />
                   <span className="todo-item-label">{ todo.title }</span>
