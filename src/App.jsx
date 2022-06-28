@@ -4,27 +4,26 @@ import logo from './logo.svg';
 import './App.css';
 
 function App() {
-
   const [count, setCount] = useState(0);
 
-function decrement() {
-    setCount(prevCount => prevCount-1)
-}
+  function decrement() {
+    setCount(prevCount => prevCount - 1);
+  }
 
-function increment() {
-  setCount(prevCount=>prevCount+1)
-}
+  function increment() {
+    setCount(prevCount => prevCount + 1);
+  }
   const testStyle = {
     background: 'blue',
     color: 'white',
     fontSize: '30px',
     fontWeight: 'bold',
-  }
+  };
 
   return (
     <div className="App">
       <header className="App-header">
-        <Another name="Douglas Adams"/>
+        < Another name="Douglas Adams" />
         <div>
           <span>{count}</span>
           <button onClick={decrement}>-</button>
@@ -36,9 +35,7 @@ function increment() {
         </p>
 
         <p>The answer to life is: </p>
-        {true &&
-          <p style={testStyle}>{2 * 21}</p>
-        }
+        {true && <p style={testStyle}>{2 * 21}</p>}
 
         <a
           className="App-link"
