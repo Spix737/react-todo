@@ -9,52 +9,106 @@ function App() {
       id: 1,
       title: 'Finish React Series',
       isComplete: false,
+      isEditing: true,
     },
     {
       id: 2,
       title: "Go Grocery Shoppin'",
       isComplete: false,
+      isEditing: true,
     },
     {
       id: 3,
       title: 'Finish World Takeover',
       isComplete: false,
+      isEditing: true,
     },
   ]);
 
   const [todoInput, setTodoInput] = useState('');
   const [idForTodo, setIdForTodo] = useState('4');
 
-  function addTodo(event){
+  function addTodo(event) {
     event.preventDefault();
 
-    if(todoInput.trim().length === 0) {
+    if (todoInput.trim().length === 0) {
       return;
     }
 
-    setTodos([...todos,{
-      id: idForTodo,
-      title: todoInput,
-      isComplete: false,
-    }])
+    setTodos([
+      ...todos,
+      {
+        id: idForTodo,
+        title: todoInput,
+        isComplete: false,
+      },
+    ]);
 
     setTodoInput('');
-    setIdForTodo(previousIdForTodo => previousIdForTodo+1);
+    setIdForTodo(previousIdForTodo => previousIdForTodo + 1);
   }
 
   function deleteTodo(id) {
-    setTodos([...todos].filter(todo => todo.id !== id))
+    setTodos([...todos].filter(todo => todo.id !== id));
   }
 
-  function handleInput(event){
+  function handleInput(event) {
     setTodoInput(event.target.value);
+  }
+
+  function completeTodo(id) {
+    const updatedTodos = todos.map(todo => {
+      if (todo.id === id) {
+        todo.isComplete = !todo.isComplete;
+      }
+      return todo;
+    });
+    setTodos(updatedTodos);
+  }
+
+  function markAsEditing(id) {
+    const updatedTodos = todos.map(todo => {
+      if (todo.id === id) {
+        todo.isEditing = !todo.isEditing;
+      }
+      return todo;
+    });
+    setTodos(updatedTodos);
+  }
+
+  // function cancelEdit(event, id) {
+  //   const updatedTodos = todos.map(todo => {
+  //     if (todo.id === id) {
+  //       todo.isEditing = false;
+  //     }
+  //     return todo;
+  //   });
+  //   setTodos(updatedTodos);
+  // }
+
+  
+  function updateTodo(event, id) {
+    const updatedTodos = todos.map(todo => {
+      if (todo.id === id) {
+        if(event.target.value.trim().length === 0){
+          todo.isEditing = false;
+          return todo;
+        }
+        todo.title = event.target.value;
+        todo.isEditing = false;
+      }
+      return todo;
+    });
+    setTodos(updatedTodos);
   }
 
   return (
     <div className="todo-app-container">
       <div className="todo-app">
         <h2>Todo App</h2>
-        <form action="#" onSubmit={addTodo}> {/*  () => alert('form submitted') */}
+        <form action="#" onSubmit={addTodo}>
+          {' '}
+          {/*  () => alert('form submitted') */}
           <input
             type="text"
             value={todoInput}
@@ -68,11 +122,39 @@ function App() {
           {todos.map((todo, index) => (
             <li key={todo.id} className="todo-item-container">
               <div className="todo-item">
-                <input type="checkbox" />
-                <span className="todo-item-label">{ todo.title }</span>
-                {/* <input type="text" className="todo-item-input" value="Finish React Series" /> */}
+                <input type="checkbox" onChange={() => completeTodo(todo.id)} />
+                {!todo.isEditing ? (
+                  <span
+                    onDoubleClick={() => markAsEditing(todo.id)}
+                    className={`todo-item-label ${
+                      todo.isComplete ? 'line-through' : ''
+                    }`}
+                  >
+                    {todo.title}
+                  </span>
+                ) : (
+                  <input
+                    type="text"
+                    onBlur={(event) => updateTodo(event, todo.id)}
+                    onKeyDown={event => {
+                      if(event.key === 'Enter'){
+                        updateTodo(event, todo.id);
+                      }
+                      else if(event.key === 'Escape'){
+                        markAsEditing(todo.id);
+                      }
+                    }}
+                    className="todo-item-input"
+                    defaultValue={todo.title}
+                    autoFocus
+                  />
+                )}
               </div>
-              <button className="x-button" onClick={() => deleteTodo(todo.id)}>
+              <button
+                className="x-button"
+                onClick={() => deleteTodo(todo.id)}
+                checked={todo.isComplete ? true : false}
+              >
                 <svg
                   className="x-button-icon"
                   fill="none"
