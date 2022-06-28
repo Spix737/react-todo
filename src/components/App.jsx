@@ -1,51 +1,87 @@
 import { useState } from 'react';
-import Another from './Another';
-import logo from '../logo.svg';
+import '../reset.css';
 import '../App.css';
 
+//Functional Based Component
 function App() {
-  const [count, setCount] = useState(0);
-
-  function decrement() {
-    setCount(prevCount => prevCount - 1);
-  }
-
-  function increment() {
-    setCount(prevCount => prevCount + 1);
-  }
-  const testStyle = {
-    background: 'blue',
-    color: 'white',
-    fontSize: '30px',
-    fontWeight: 'bold',
-  };
+  const [todos, setTodos] = useState([
+    {
+      id: 1,
+      title: 'Finish React Series',
+      isComplete: false,
+    },
+    {
+      id: 2,
+      title: "Go Grocery Shoppin'",
+      isComplete: false,
+    },
+    {
+      id: 3,
+      title: 'Finish World Takeover',
+      isComplete: false,
+    },
+  ]);
 
   return (
-    <div className="App">
-      <header className="App-header">
-        < Another name="Douglas Adams" />
-        <div>
-          <span>{count}</span>
-          <button onClick={decrement}>-</button>
-          <button onClick={increment}>+</button>
+    <div className="todo-app-container">
+      <div className="todo-app">
+        <h2>Todo App</h2>
+        <form action="#">
+          <input
+            type="text"
+            className="todo-input"
+            placeholder="What do you need to do?"
+          />
+        </form>
+
+        <ul className="todo-list">
+          {todos.map((todo, index) => (
+            <li className="todo-item-container">
+              <div className="todo-item">
+                <input type="checkbox" />
+                <span className="todo-item-label">{ todo.title }</span>
+                {/* <input type="text" className="todo-item-input" value="Finish React Series" /> */}
+              </div>
+              <button className="x-button">
+                <svg
+                  className="x-button-icon"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+            </li>
+          ))}
+        </ul>
+
+        <div className="check-all-container">
+          <div>
+            <div className="button">Check All</div>
+          </div>
+
+          <span>3 items remaining</span>
         </div>
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
 
-        <p>The answer to life is: </p>
-        {true && <p style={testStyle}>{2 * 21}</p>}
-
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+        <div className="other-buttons-container">
+          <div>
+            <button className="button filter-button filter-button-active">
+              All
+            </button>
+            <button className="button filter-button">Active</button>
+            <button className="button filter-button">Completed</button>
+          </div>
+          <div>
+            <button className="button">Clear completed</button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
