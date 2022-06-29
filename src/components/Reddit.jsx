@@ -1,19 +1,30 @@
 import React from 'react';
 import { useQuery } from 'react-query';
-import useFetch from '../hooks/useFetch';
+//import useFetch from '../hooks/useFetch';
 
 export default function Reddit() {
-  const { data: posts, loading, isError, error, isSuccess } = useFetch('https://www.reddit.com/r/reactjs.json');
+  const {
+    data: posts,
+    loading,
+    isError,
+    error,
+    isSuccess,
+  } = useQuery('posts', fetchPosts, {
+    retry: false,
+  });
+  //useFetch('https://www.reddit.com/r/reactjs.json');
 
-  // function fetchPosts(){
-  //   return fetch('https://reddit.com/r/reactjs.json', { mode: 'no-cors'}).then(response => response.json());
-  // }
+  function fetchPosts() {
+    return fetch('https://www.reddit.com/r/reactjs.json').then(response =>
+      response.json()
+    );
+  }
 
   return (
     <div>
       <h2>Reddit API</h2>
       {loading && <div>Loading...</div>}
-      {posts && (
+      {isSuccess && (
         <ul>
           {posts.data.children.map(post => (
             <li key={post.data.id}>
