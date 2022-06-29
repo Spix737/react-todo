@@ -60,6 +60,11 @@ function App() {
               placeholder="What is your name?"
               value={name}
               onChange={handleNameInput}
+              onKeyDown={event => {
+                if (event.key === 'Escape' | event.key === 'Enter') {
+                  event.target.blur();
+                }
+              }}
             />
           </form>
           <CSSTransition

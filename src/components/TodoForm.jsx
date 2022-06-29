@@ -41,6 +41,11 @@ function TodoForm() {
         onChange={handleInput}
         className="todo-input"
         placeholder="What do you need to do?"
+        onKeyDown={event => {
+          if (event.key === 'Escape') {
+            event.target.blur();
+          }
+        }}
       />
     </form>
   );
