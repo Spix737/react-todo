@@ -6,11 +6,11 @@ function useFetch(url) {
     const [errorMsg, setErrorMsg] = useState(null);
   
     useEffect(() => {
-      fetch('https://www.reddit.com/r/reactjs.json')
+      fetch(url)
         .then(response => response.json())
         .then(results => {
           setLoading(false); 
-          setData(results.data.children);
+          setData(results);
         }).catch(error => {
           setLoading(false);
           setErrorMsg('Error occured when fetching data');

@@ -7,6 +7,7 @@ import Contact from './pages/Contact';
 import Blog from './pages/Blog';
 import BlogPost from './pages/BlogPost';
 import NoMatch from './pages/NoMatch';
+import API from './pages/API';
 
 export default function Root() {
   const routes = [
@@ -14,6 +15,7 @@ export default function Root() {
     { path: '/about', name: 'About', Component: About, exact: false },
     { path: '/contact', name: 'Contact', Component: Contact, exact: false },
     { path: '/blog', name: 'Blog', Component: Blog, exact: true },
+    { path: '/api', name: 'API', Component: API, exact: true },
     { path: '/blog/:id', name: 'Post', Component: BlogPost, exact: false },
     { path: '*', name: 'No Match', Component: NoMatch, exact: false },
   ];

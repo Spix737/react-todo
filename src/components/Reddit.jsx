@@ -1,8 +1,13 @@
 import React from 'react';
-import useFetch from './hooks/useFetch';
+import { useQuery } from 'react-query';
+import useFetch from '../hooks/useFetch';
 
 export default function Reddit() {
-  const { data: posts, loading, errorMsg } = useFetch('https://www.reddit.com/r/reactjs.json');
+  const { data: posts, loading, isError, error, isSuccess } = useFetch('https://www.reddit.com/r/reactjs.json');
+
+  // function fetchPosts(){
+  //   return fetch('https://reddit.com/r/reactjs.json', { mode: 'no-cors'}).then(response => response.json());
+  // }
 
   return (
     <div>
@@ -19,7 +24,7 @@ export default function Reddit() {
           ))}
         </ul>
       )}
-      {errorMsg && <div>{errorMsg}</div>}
+      {isError && <div>{error.message}</div>}
     </div>
   );
 }

@@ -18,6 +18,9 @@ export default function NavigationBar() {
           <li>
             <NavLink to="/blog" >Blog</NavLink>
           </li>
+          <li>
+            <NavLink to="/api" >API</NavLink>
+          </li>
         </ul>
       </nav>
   );
