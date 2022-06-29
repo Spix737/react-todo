@@ -1,37 +1,17 @@
-import { useMemo, useState, useRef, useEffect } from 'react';
+import { useMemo, useRef, useEffect } from 'react';
 import NoTodos from './NoTodos';
 import '../reset.css';
 import '../App.css';
 import TodoForm from './TodoForm';
 import TodoList from '../TodoList';
+import useLocalStorage from '../hooks/useLocalStorage';
 
 //Functional Based Component
 function App() {
-  const [name, setName] = useState('');
+  const [name, setName] = useLocalStorage('name', '');
   const nameInputEl = useRef(null);
-  const [todos, setTodos] = useState([
-    {
-      id: 1,
-      title: 'Finish React Series',
-      isComplete: false,
-      isEditing: true,
-    },
-    {
-      id: 2,
-      title: "Go Grocery Shoppin'",
-      isComplete: false,
-      isEditing: true,
-    },
-    {
-      id: 3,
-      title: 'Finish World Takeover',
-      isComplete: false,
-      isEditing: true,
-    },
-  ]);
-
-  //const [todoInput, setTodoInput] = useState('');
-  const [idForTodo, setIdForTodo] = useState('4');
+  const [todos, setTodos] = useLocalStorage('todos', []);
+  const [idForTodo, setIdForTodo] = useLocalStorage('idForTodo', 1);
 
   function addTodo(todo) {
     setTodos([
@@ -125,10 +105,14 @@ function App() {
 
   useEffect(() => {
     nameInputEl.current.focus();
+    //setName(JSON.parse(localStorage.getItem('name')) ?? ' ')
+    return function cleanup() {};
+  }, []);
 
-    return function cleanup() {
-    }
-  }, [])
+  function handleNameInput(event) {
+    setName(event.target.value);
+    localStorage.setItem('name', JSON.stringify(event.target.value));
+  }
 
   return (
     <div className="todo-app-container">
@@ -142,10 +126,10 @@ function App() {
               className="todo-input"
               placeholder="What is your name?"
               value={name}
-              onChange={event => setName(event.target.value)}
+              onChange={handleNameInput}
             />
           </form>
-          { name && <p className="name-label">Hello, {name}</p>}
+          {name && <p className="name-label">Hello, {name}</p>}
         </div>
         <h2>Todo App</h2>
         <TodoForm addTodo={addTodo} />
